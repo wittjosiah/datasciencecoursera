@@ -44,3 +44,4 @@ merged <- rbind(X_train, X_test)
 tidy <- ddply(merged, c("ID", "Activity"), colwise(mean))
 #save clean dataset
 write.csv(tidy, "tidy.csv")
+write.table(tidy, "tidy.txt")
