@@ -12,7 +12,7 @@ vehicle_scc <- scc_vehicle_sectors$SCC
 #only baltimore city
 balt_city <- subset(NEI, NEI$fips=="24510")
 
-#only coal-related sources
+#only vehicle-related sources
 scc <- balt_city$SCC
 balt_city_vehicles <- subset(balt_city, scc %in% vehicle_scc)
 
