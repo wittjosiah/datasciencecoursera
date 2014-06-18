@@ -1,4 +1,3 @@
-library(ggplot2)
 library(plyr)
 
 #read datasets
