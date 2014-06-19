@@ -1,0 +1,61 @@
+Severe Weather Events Damage Analysis
+=====================================
+
+## Synopsis
+
+
+
+## Data Processing
+
+### Libraries
+
+```{r}
+library(ggplot2)
+library(reshape2)
+library(R.utils)
+```
+
+### Retrieving Data
+
+```{r}
+download.file(url="https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2FStormData.csv.bz2", destfile="StormData.csv.bz2", method="curl")
+bz <- bzfile("StormData.csv.bz2", "r")
+```
+
+### Loading Data and Adjusting Case
+
+```{r}
+data <- read.csv(bz, header=T)
+close(bz)
+
+names(data) <- tolower(names(data))
+data$evtype <- capitalize(tolower(evtype))
+```
+
+### Calculating Health Damages
+
+```{r}
+casualties <- aggregate(cbind(fatalities, injuries) ~ evtype, data, sum)
+names(casualties) <- c("Event", "Fatalities", "Injuries")
+casualties <- casualties[(casualties[,2] > 0 & casualties[,3] > 0),]
+casualties <- casualties[order(casualties[,3], decreasing=T),]
+casualties <- casualties[1:10,]
+casualties <- melt(casualties, "Event")
+```
+
+## Results
+
+### Plotting Health Damages
+
+```{r}
+ggplot(casualties, aes(x=Event, y=value, fill=variable)) +
+  geom_bar(stat="identity") +
+  labs(x = "", y = "Number of People Affected") +
+  scale_fill_manual(values = c("red", "orange"), labels = c("Fatalities", "Injuries")) +
+  ggtitle("Number of People Affected by Most Harmful Severe Weather Events")
+```
+
+
+
+
+
