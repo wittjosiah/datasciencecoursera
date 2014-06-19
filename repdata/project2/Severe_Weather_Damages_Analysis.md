@@ -15,40 +15,8 @@ The result of examining the impact of these events on population health was that
 ```r
 library(ggplot2)
 library(reshape2)
-library(R.utils)
-```
-
-```
-## Loading required package: R.oo
-## Loading required package: R.methodsS3
-## R.methodsS3 v1.6.1 (2014-01-04) successfully loaded. See ?R.methodsS3 for help.
-## R.oo v1.18.0 (2014-02-22) successfully loaded. See ?R.oo for help.
-## 
-## Attaching package: 'R.oo'
-## 
-## The following objects are masked from 'package:methods':
-## 
-##     getClasses, getMethods
-## 
-## The following objects are masked from 'package:base':
-## 
-##     attach, detach, gc, load, save
-## 
-## R.utils v1.32.4 (2014-05-14) successfully loaded. See ?R.utils for help.
-## 
-## Attaching package: 'R.utils'
-## 
-## The following object is masked from 'package:utils':
-## 
-##     timestamp
-## 
-## The following objects are masked from 'package:base':
-## 
-##     cat, commandArgs, getOption, inherits, isOpen, parse, warnings
-```
-
-```r
 library(car)
+library(R.utils)
 ```
 
 ### Retrieving Data
@@ -122,7 +90,7 @@ ggplot(casualties, aes(x=Event, y=value, fill=variable)) +
   ggtitle("Number of People Affected by Most Harmful Severe Weather Events")
 ```
 
-![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6.png) 
+![plot of chunk casualties_plot](figure/casualties_plot.png) 
 
 ### Plotting Economic Damages
 
@@ -131,11 +99,11 @@ ggplot(casualties, aes(x=Event, y=value, fill=variable)) +
 ggplot(damages, aes(x=Event, y=value, fill=variable)) +
   geom_bar(stat="identity") +
   labs(x="", y="Damages (USD)") +
-  scale_fill_manual(values=c("brown", "black"), labels=c("Crop Damage", "Property Damage")) +
-  ggtitle("Cost of Damages done by Most Harmful Severe Weather Events")
+  scale_fill_manual(values=c("black", "brown"), labels=c("Property Damage", "Crop Damage")) +
+  ggtitle("Cost of Damages Done by Most Harmful Severe Weather Events")
 ```
 
-![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7.png) 
+![plot of chunk damages_plot](figure/damages_plot.png) 
 
 
 

@@ -11,7 +11,7 @@ The result of examining the impact of these events on population health was that
 
 ### Libraries
 
-```{r}
+```{r,results='hide',message=FALSE,warning=FALSE}
 library(ggplot2)
 library(reshape2)
 library(car)
@@ -76,8 +76,8 @@ damages <- melt(damages, "Event")
 
 ### Plotting Health Damages
 
-```{r}
-p1 <- ggplot(casualties, aes(x=Event, y=value, fill=variable)) +
+```{r casualties_plot,fig.width=12}
+ggplot(casualties, aes(x=Event, y=value, fill=variable)) +
   geom_bar(stat="identity") +
   labs(x = "", y = "Number of People Affected") +
   scale_fill_manual(values = c("red", "orange"), labels = c("Fatalities", "Injuries")) +
@@ -86,8 +86,8 @@ p1 <- ggplot(casualties, aes(x=Event, y=value, fill=variable)) +
 
 ### Plotting Economic Damages
 
-```{r}
-p2 <- ggplot(damages, aes(x=Event, y=value, fill=variable)) +
+```{r damages_plot,fig.width=12}
+ggplot(damages, aes(x=Event, y=value, fill=variable)) +
   geom_bar(stat="identity") +
   labs(x="", y="Damages (USD)") +
   scale_fill_manual(values=c("black", "brown"), labels=c("Property Damage", "Crop Damage")) +
