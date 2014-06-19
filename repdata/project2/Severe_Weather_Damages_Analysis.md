@@ -11,23 +11,58 @@ The result of examining the impact of these events on population health was that
 
 ### Libraries
 
-```{r}
+
+```r
 library(ggplot2)
 library(reshape2)
-library(car)
 library(R.utils)
+```
+
+```
+## Loading required package: R.oo
+## Loading required package: R.methodsS3
+## R.methodsS3 v1.6.1 (2014-01-04) successfully loaded. See ?R.methodsS3 for help.
+## R.oo v1.18.0 (2014-02-22) successfully loaded. See ?R.oo for help.
+## 
+## Attaching package: 'R.oo'
+## 
+## The following objects are masked from 'package:methods':
+## 
+##     getClasses, getMethods
+## 
+## The following objects are masked from 'package:base':
+## 
+##     attach, detach, gc, load, save
+## 
+## R.utils v1.32.4 (2014-05-14) successfully loaded. See ?R.utils for help.
+## 
+## Attaching package: 'R.utils'
+## 
+## The following object is masked from 'package:utils':
+## 
+##     timestamp
+## 
+## The following objects are masked from 'package:base':
+## 
+##     cat, commandArgs, getOption, inherits, isOpen, parse, warnings
+```
+
+```r
+library(car)
 ```
 
 ### Retrieving Data
 
-```{r}
+
+```r
 download.file(url="https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2FStormData.csv.bz2", destfile="StormData.csv.bz2", method="curl")
 bz <- bzfile("StormData.csv.bz2", "r")
 ```
 
 ### Loading Data and Adjusting Case
 
-```{r}
+
+```r
 data <- read.csv(bz, header=T)
 close(bz)
 
@@ -38,7 +73,8 @@ data$evtype <- capitalize(tolower(data$evtype))
 
 ### Calculating Health Damages
 
-```{r}
+
+```r
 #sum up injuries and fatalities by event type
 casualties <- aggregate(cbind(fatalities, injuries) ~ evtype, data, sum)
 names(casualties) <- c("Event", "Fatalities", "Injuries")
@@ -52,7 +88,8 @@ casualties <- melt(casualties, "Event")
 
 ### Calculating Economic Damages
 
-```{r}
+
+```r
 #recode the exponent as a multiplier
 data$propdmgexp <- as.numeric(Recode(data$propdmgexp, 
     "'0'=1;'1'=10;'2'=100;'3'=1000;'4'=10000;'5'=100000;'6'=1000000;'7'=10000000;'8'=100000000;'B'=1000000000;'h'=100;'H'=100;'K'=1000;'m'=1000000;'M'=1000000;'-'=0;'?'=0;'+'=0", 
@@ -76,23 +113,29 @@ damages <- melt(damages, "Event")
 
 ### Plotting Health Damages
 
-```{r}
-p1 <- ggplot(casualties, aes(x=Event, y=value, fill=variable)) +
+
+```r
+ggplot(casualties, aes(x=Event, y=value, fill=variable)) +
   geom_bar(stat="identity") +
   labs(x = "", y = "Number of People Affected") +
   scale_fill_manual(values = c("red", "orange"), labels = c("Fatalities", "Injuries")) +
   ggtitle("Number of People Affected by Most Harmful Severe Weather Events")
 ```
 
+![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6.png) 
+
 ### Plotting Economic Damages
 
-```{r}
-p2 <- ggplot(damages, aes(x=Event, y=value, fill=variable)) +
+
+```r
+ggplot(damages, aes(x=Event, y=value, fill=variable)) +
   geom_bar(stat="identity") +
   labs(x="", y="Damages (USD)") +
-  scale_fill_manual(values=c("black", "brown"), labels=c("Property Damage", "Crop Damage")) +
-  ggtitle("Cost of Damages Done by Most Harmful Severe Weather Events")
+  scale_fill_manual(values=c("brown", "black"), labels=c("Crop Damage", "Property Damage")) +
+  ggtitle("Cost of Damages done by Most Harmful Severe Weather Events")
 ```
+
+![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7.png) 
 
 
 
